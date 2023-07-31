@@ -11,6 +11,7 @@ conda create -n telegram python=3.8
 Python requirements(pip install -r requirements.txt)
 pip install python-telegram-bot --upgrade
 pip install requests
+pip install pylint, pep8
 
 Check the following for the documentation:
 https://docs.python-telegram-bot.org/en/stable/telegram.html
