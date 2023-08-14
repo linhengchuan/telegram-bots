@@ -12,6 +12,7 @@ Python requirements(pip install -r requirements.txt)
 pip install python-telegram-bot --upgrade
 pip install requests
 pip install pylint, pep8
+pip install schedule
 
 Check the following for the documentation:
 https://docs.python-telegram-bot.org/en/stable/telegram.html
