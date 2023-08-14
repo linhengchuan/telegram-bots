@@ -17,6 +17,7 @@ async def weather(update: Update, context: ContextTypes.DEFAULT_TYPE):
         four_days_adr = "https://api.data.gov.sg/v1/environment/4-day-weather-forecast"
         response = requests.get(four_days_adr)
         weather_text=response.json().get('items')[0].get('forecasts')[0].get('date') + ": " + response.json().get('items')[0].get('forecasts')[0].get('forecast')
+        print(response.json().get('items')[0].get('forecasts')[0].get('date') + ": " + response.json().get('items')[0].get('forecasts')[0].get('forecast'))
         await context.bot.send_message(chat_id=update.effective_chat.id, text=weather_text)
     
 async def caps(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -29,7 +30,7 @@ if __name__ == '__main__':
     start_handler = CommandHandler('start', start) #type /start to call start function
     application.add_handler(start_handler)
     
-    echo_handler = MessageHandler(filters.TEXT & (~filters.COMMAND), weather)
+    echo_handler = MessageHandler(filters.TEXT & (~filters.COMMAND), weather) #type weather into chat. Not cmd.
     application.add_handler(echo_handler)
     
     caps_handler = CommandHandler('caps', caps) #type /caps word to get WORD as reply
