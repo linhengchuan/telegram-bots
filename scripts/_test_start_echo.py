@@ -14,7 +14,7 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(chat_id=update.effective_chat.id, text=update.message.text)
     
 if __name__ == '__main__':
-    application = ApplicationBuilder().token("6010838341:AAGaPXhE1SWGZLkKYg_fM0B7KRQ2ePIiau0").build()
+    application = ApplicationBuilder().token("6690176337:AAEFKa9JLcRqzt5N6XBZncXIn1BMbgSFMdI").build()
     
     start_handler = CommandHandler('start', start)
     application.add_handler(start_handler)
