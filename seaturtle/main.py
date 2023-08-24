@@ -8,15 +8,42 @@ from threading import Thread
 import time
 import asyncio
 import sys
+import os
+
+token_file_path = os.path.dirname(os.path.abspath(__file__)) + "\\_token.txt"
+chat_id_file_path = os.path.dirname(os.path.abspath(__file__)) + "\\_chat_id.txt"
+
+try:
+    with open(token_file_path, 'r') as file:
+        TOKEN_ID = file.read()
+except FileNotFoundError:
+    print("The file does not exist.")
+
+try:
+    with open(chat_id_file_path, 'r') as file:
+        content = file.read()
+        values = content.strip().split(', ')
+        set_of_chat_id = set(values)
+except FileNotFoundError:
+    print("The file does not exist.")
+except Exception as e:
+    print("An error occurred:", e)
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
 )
 
-set_of_chat_id = set()
 MORNING_BRAODCAST_TIME = "23:00"
-TOKEN_ID = "6690176337:AAEFKa9JLcRqzt5N6XBZncXIn1BMbgSFMdI"
+
+def update_chat_id():
+    try:
+        set_string = ', '.join(str(item) for item in set_of_chat_id)
+        with open(chat_id_file_path, 'w') as file:
+            file.write(set_string)
+        print("Set written to file successfully.")
+    except Exception as e:
+        print("An error occurred:", e)
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(chat_id=update.effective_chat.id, text="Hi! I am a sea turtle!")
