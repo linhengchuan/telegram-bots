@@ -10,8 +10,12 @@ import asyncio
 import sys
 import os
 
-token_file_path = os.path.dirname(os.path.abspath(__file__)) + "\\_token.txt"
-chat_id_file_path = os.path.dirname(os.path.abspath(__file__)) + "\\_chat_id.txt"
+if sys.platform=='win32':
+    token_file_path = os.path.dirname(os.path.abspath(__file__)) + "\\_token.txt"
+    chat_id_file_path = os.path.dirname(os.path.abspath(__file__)) + "\\_chat_id.txt"
+else:
+    token_file_path = os.path.dirname(os.path.abspath(__file__)) + "/_token.txt"
+    chat_id_file_path = os.path.dirname(os.path.abspath(__file__)) + "/_chat_id.txt"
 
 try:
     with open(token_file_path, 'r') as file:
@@ -23,7 +27,8 @@ try:
     with open(chat_id_file_path, 'r') as file:
         content = file.read()
         values = content.strip().split(', ')
-        set_of_chat_id = set(values)
+        set_of_chat_id = set([int(i) for i in values if len(i)!=0])
+        print(f"set_of_chat_id {set_of_chat_id}")
 except FileNotFoundError:
     print("The file does not exist.")
 except Exception as e:
@@ -39,6 +44,7 @@ MORNING_BRAODCAST_TIME = "23:00"
 def update_chat_id():
     try:
         set_string = ', '.join(str(item) for item in set_of_chat_id)
+        print(f"set_string: {set_string}")
         with open(chat_id_file_path, 'w') as file:
             file.write(set_string)
         print("Set written to file successfully.")
@@ -50,11 +56,13 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def weather_auto_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     set_of_chat_id.add(update.effective_chat.id)
+    update_chat_id()
     text = f"Sg weather will be broadcasted everyday at {MORNING_BRAODCAST_TIME}"
     await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
 
-async def weather_auto_end(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def weather_auto_stop(update: Update, context: ContextTypes.DEFAULT_TYPE):
     set_of_chat_id.discard(update.effective_chat.id)
+    update_chat_id()
     text = "Sg weather will stop broadcasting everyday."
     await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
 
@@ -115,7 +123,7 @@ if __name__ == '__main__':
     weather_handler_auto_start = CommandHandler('weather_auto_start', weather_auto_start)
     application.add_handler(weather_handler_auto_start)
 
-    weather_handler_auto_end = CommandHandler('weather_auto_end', weather_auto_end)
+    weather_handler_auto_end = CommandHandler('weather_auto_stop', weather_auto_stop)
     application.add_handler(weather_handler_auto_end)
     
     weather_handler_now = CommandHandler('weather_now', weather_now)
