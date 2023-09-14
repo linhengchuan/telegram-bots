@@ -1,18 +1,7 @@
-# GoldMemoBot
+# Telegram Bots
 
-## Description
+### GoldMemo Bot
+- Reminder bot 
 
-Telegram memo bot for goldfish.
-
-## Environment
-
-Create conda environment
-conda create -n telegram python=3.8
-Python requirements(pip install -r requirements.txt)
-pip install python-telegram-bot --upgrade
-pip install requests
-pip install pylint, pep8
-pip install schedule
-
-Check the following for the documentation:
-https://docs.python-telegram-bot.org/en/stable/telegram.html
+### Seaturtle Bot
+- Singapore's weather bot
